@@ -5,7 +5,7 @@ import { ChevronsUpDown, Circle, Moon, Sun } from "lucide-react";
 import { Button } from "./ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 
-const THEMES: ("dark" | "light")[] = ["dark", "light"];
+const THEMES: ("auto" | "dark" | "light")[] = ["auto", "dark", "light"];
 
 export function ColorToggle() {
   const { setTheme, theme } = useTheme();
