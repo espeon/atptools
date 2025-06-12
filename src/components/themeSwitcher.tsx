@@ -37,7 +37,10 @@ export function ColorToggle() {
                 setTheme(t);
                 setIsOpen(false);
               }}
-              className="flex items-center justify-between rounded-sm p-2 text-sm hover:bg-accent"
+              className={`
+                flex items-center justify-between rounded-sm p-2 text-sm hover:bg-accent
+                ${theme === t ? "text-blue-500" : ""}
+              `}
             >
               {t}
             </button>
