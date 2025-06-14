@@ -5,7 +5,7 @@ import { ChevronsUpDown, Circle, Moon, Sun } from "lucide-react";
 import { Button } from "./ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 
-const THEMES: ("dark" | "light")[] = ["dark", "light"];
+const THEMES: ("auto" | "dark" | "light")[] = ["auto", "dark", "light"];
 
 export function ColorToggle() {
   const { setTheme, theme } = useTheme();
@@ -37,7 +37,10 @@ export function ColorToggle() {
                 setTheme(t);
                 setIsOpen(false);
               }}
-              className="flex items-center justify-between rounded-sm p-2 text-sm hover:bg-accent"
+              className={`
+                flex items-center justify-between rounded-sm p-2 text-sm hover:bg-accent
+                ${theme === t ? "text-blue-500" : ""}
+              `}
             >
               {t}
             </button>
