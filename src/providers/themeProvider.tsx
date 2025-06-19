@@ -4,8 +4,10 @@ import {
   useCallback,
   useContext,
   useEffect,
+  useMemo,
   useState,
 } from "react";
+import { usePreferredColorScheme } from "@/hooks/use-preferred-color-scheme";
 
 export type FontConfig = {
   name: string;
@@ -100,20 +102,27 @@ export const GOOGLE_FONTS: FontConfig[] = [
 ];
 
 export type ThemeState = {
-  theme: "light" | "dark";
+  theme: "auto" | "light" | "dark";
+  effectiveTheme: "light" | "dark";
   font: FontConfig;
   loadedFonts: Set<string>;
   loadFonts: (fonts: FontConfig[]) => void;
-  setTheme: (theme: "light" | "dark") => void;
+  setTheme: (theme: "auto" | "light" | "dark") => void;
   setFont: (font: FontConfig) => void;
 };
 
 const ThemeContext = createContext<ThemeState>({} as ThemeState);
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setTheme] = useState<"light" | "dark">("dark");
+  const [theme, setTheme] = useState<"auto" | "light" | "dark">("auto");
   const [font, setFont] = useState<FontConfig>(GOOGLE_FONTS[2]);
   const [loadedFonts, setLoadedFonts] = useState<Set<string>>(new Set());
+  const preferredColorScheme = usePreferredColorScheme();
+
+  const effectiveTheme = useMemo(
+    () => theme === "auto" ? preferredColorScheme : theme,
+    [theme, preferredColorScheme]
+  );
 
   const loadFonts = useCallback(
     (fonts: FontConfig[]) => {
@@ -149,7 +158,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   // Load saved theme/font from localStorage
   useEffect(() => {
     const savedTheme =
-      (localStorage.getItem("theme") as "light" | "dark") || "dark";
+      (localStorage.getItem("theme") as "auto" | "light" | "dark") || "auto";
     const savedFont =
       JSON.parse(localStorage.getItem("font") || "null") || GOOGLE_FONTS[2];
     setTheme(savedTheme);
@@ -198,12 +207,12 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
   // Update theme class
   useEffect(() => {
-    document.documentElement.setAttribute("class", theme);
-  }, [theme]);
+    document.documentElement.setAttribute("class", effectiveTheme);
+  }, [effectiveTheme]);
 
   return (
     <ThemeContext.Provider
-      value={{ theme, font, setTheme, setFont, loadFonts, loadedFonts }}
+      value={{ theme, effectiveTheme, font, setTheme, setFont, loadFonts, loadedFonts }}
     >
       {children}
     </ThemeContext.Provider>
