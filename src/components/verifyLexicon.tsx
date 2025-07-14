@@ -99,7 +99,7 @@ const LexiconResolver = ({
           )}{" "}
           <span className="inline text-muted-foreground border-r pl-1 mr-2" />{" "}
           <a
-            href={`https://dns.google/resolve?name=${resolved}`}
+            href={`https://dns.google/resolve?name=${resolved}&type=TXT`}
             target="_blank"
             className="text-blue-700 dark:text-blue-400 hover:underline"
           >
