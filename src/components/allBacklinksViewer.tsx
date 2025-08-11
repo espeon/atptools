@@ -101,7 +101,7 @@ export function AllBacklinksViewer({ aturi }: { aturi: string }) {
               <div className="space-y-4">
                 {Object.entries(stats).map(([stat, values]) => (
                   <div key={stat} className="space-y-2">
-                    <h4 className="font-medium text-sm text-muted-foreground">
+                    <h4 className="font-medium text-sm text-muted-foreground break-words overflow-hidden max-w-full">
                       {formatStatName(stat)}
                     </h4>
                     <div className="grid grid-cols-2 gap-2 text-sm">
